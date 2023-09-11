@@ -26,33 +26,15 @@ int __stdcall WinMain(
 	const LPSTR args,
 	const int cmd_show
 ) {
-	m::process_id("csgo.exe");
 
-	if (m::id == 0) {
-		dialog("Please open cs:go!");
-		return 1;
-	}
-
-	// wait for csgo to load modules
-	while (!m::module_address("serverbrowser.dll")) {
-		std::this_thread::sleep_for(std::chrono::milliseconds(200));
-	}
 
 	Memory mem{"csgo.exe"};
 
 	globals::clientAddress = mem.GetModuleAddress("client.dll");
 	globals::engineAddress = mem.GetModuleAddress("engine.dll");
 
-	m::client = m::module_address("client.dll");
-	m::engine = m::module_address("engine.dll");
-
-	if (m::client == 0 || m::engine == 0) {
+	if (globals::clientAddress == 0 || globals::engineAddress == 0) {
 		return dialog("Failed to get module addresses.");
-	}
-
-	// create ui
-	if (!m::open_handle()) {
-		return dialog("Failed to open a handle to the game.");
 	}
 
 	if (!u::create_window("LaCheat")) {
@@ -66,13 +48,13 @@ int __stdcall WinMain(
 
 	u::create_menu();
 
-	std::thread{ h::visuals }.detach();
-	std::thread{ g::entities }.detach();
+	std::thread(h::visuals, mem).detach();
 	std::thread(h::aimbot, mem).detach();
 	std::thread(h::bhop, mem).detach();
 	std::thread(h::recoil, mem).detach();
 	std::thread(h::trigger, mem).detach();
-	std::thread(h::crouch, mem).detach();
+	std::thread(h::chams, mem).detach();
+
 
 
 
@@ -87,7 +69,6 @@ int __stdcall WinMain(
 	u::destroy_device();
 	u::destroy_window();
 
-	m::close_handle();
 
 	return 0;
 }

@@ -241,7 +241,9 @@ void u::render() noexcept {
 		if (ImGui::Button("Aimbot", { ImGui::GetContentRegionAvail().x, button_height })) { current_tab = 0; }
 		if (ImGui::Button("Visuals", { ImGui::GetContentRegionAvail().x, button_height })) { current_tab = 1; }
 		if (ImGui::Button("Other", { ImGui::GetContentRegionAvail().x, button_height })) { current_tab = 2; }
-		if (ImGui::Button("Skins", { ImGui::GetContentRegionAvail().x, button_height })) { current_tab = 3; }
+		if (ImGui::Button("Colors", { ImGui::GetContentRegionAvail().x, button_height })) { current_tab = 3; }
+		if (ImGui::Button("Skins", { ImGui::GetContentRegionAvail().x, button_height })) { current_tab = 4; }
+
 
 		ImGui::EndChild();
 	}
@@ -264,17 +266,20 @@ void u::render() noexcept {
 			break;
 
 		case 1:
-			ImGui::Checkbox("team glow", &v::team_glow.first);
-			ImGui::ColorEdit4("color##team_glow", v::team_glow.second.data());
+			ImGui::Checkbox("Team ESP", &globals::glowTeam);
 
 			ImGui::Spacing();
 
-			ImGui::Checkbox("enemy glow", &v::enemy_glow.first);
-			ImGui::ColorEdit4("color##enemy_glow", v::enemy_glow.second.data());
+			ImGui::Checkbox("Enemy ESP", &globals::glowEnemy);
 
 			ImGui::Spacing();
 
-			ImGui::Checkbox("radar", &v::radar);
+			ImGui::Checkbox("chams", &globals::chams);
+
+			ImGui::Spacing();
+
+
+			ImGui::Checkbox("radar", &globals::radar);
 			break;
 
 		case 2:
@@ -286,13 +291,31 @@ void u::render() noexcept {
 
 			ImGui::Spacing();
 
-			ImGui::Checkbox("crouch fire", &globals::crouch);
 
 
 			break;
 
 		case 3:
+			ImGui::Text("Team Color");
+			ImGui::ColorEdit3("color##team_esp", globals::glowColorTeam);
 
+			ImGui::Spacing();
+
+			ImGui::Text("Enemy Color");
+			ImGui::ColorEdit3("color##enemy_esp", globals::glowColorEnemy);
+
+			ImGui::Spacing();
+
+			ImGui::Text("Team Color");
+			ImGui::ColorEdit3("##team_chams_color", reinterpret_cast<float*>(&globals::TeamChamsColor));
+
+			ImGui::Spacing();
+
+			ImGui::Text("Enemy Color");
+			ImGui::ColorEdit3("##enemy_chams_color", reinterpret_cast<float*>(&globals::EnemyChamsColor));
+			break;
+
+		case 4:
 			break;
 		}
 

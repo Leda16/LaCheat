@@ -5,7 +5,7 @@
 namespace u {
 	constexpr struct window_size_t {
 		const int width = 500;
-		const int height = 300;
+		const int height = 365;
 	}size;
 
 	inline HWND window = nullptr;

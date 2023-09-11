@@ -158,16 +158,14 @@
     <ClCompile Include="ext\imgui\imgui_impl_win32.cpp" />
     <ClCompile Include="ext\imgui\imgui_tables.cpp" />
     <ClCompile Include="ext\imgui\imgui_widgets.cpp" />
-    <ClCompile Include="src\globals.cpp" />
     <ClCompile Include="src\hacks\aimbot.cpp" />
     <ClCompile Include="src\hacks\bhop.cpp" />
-    <ClCompile Include="src\hacks\crouch.cpp" />
+    <ClCompile Include="src\hacks\chams.cpp" />
     <ClCompile Include="src\hacks\recoil.cpp" />
     <ClCompile Include="src\hacks\trigger.cpp" />
     <ClCompile Include="src\hacks\visuals.cpp" />
     <ClCompile Include="src\main.cpp" />
     <ClCompile Include="src\ui.cpp" />
-    <ClCompile Include="src\utils\memory.cpp" />
     <ClCompile Include="src\utils\memory.h" />
   </ItemGroup>
   <ItemGroup>
@@ -181,8 +179,6 @@
     <ClInclude Include="ext\imgui\imstb_truetype.h" />
     <ClInclude Include="src\globals.h" />
     <ClInclude Include="src\hacks\hacks.h" />
-    <ClInclude Include="src\sdk\color.h" />
-    <ClInclude Include="src\sdk\entity.h" />
     <ClInclude Include="src\ui.h" />
     <ClInclude Include="src\utils\vector.h" />
   </ItemGroup>

@@ -2,44 +2,66 @@
 
 #include <thread>
 
-void h::visuals() noexcept {
+void h::visuals(const Memory& mem) noexcept {
 	while (g::run) {
 		std::this_thread::sleep_for(std::chrono::milliseconds(1));
-		for (const auto& entity : g::entity_list) {
-			if (!entity.is_alive()) {
+
+		const auto localPlayer = mem.Read<std::uintptr_t>(globals::clientAddress + offsets::dwLocalPlayer);
+
+		if (!localPlayer)
+			continue;
+
+		const auto glowManager = mem.Read<std::uintptr_t>(globals::clientAddress + offsets::dwGlowObjectManager);
+
+		if (!glowManager)
+			continue;
+
+		const auto localTeam = mem.Read<std::int32_t>(localPlayer + offsets::m_iTeamNum);
+
+		for (auto i = 1; i <= 32; ++i)
+		{
+			const auto player = mem.Read<std::uintptr_t>(globals::clientAddress + offsets::dwEntityList + i * 0x10);
+
+			if (!player)
 				continue;
-			}
 
-			if (entity.is_dormant()) {
+			const auto lifeState = mem.Read<std::int32_t>(player + offsets::m_lifeState);
+
+			if (lifeState != 0)
 				continue;
-			}
 
-			if (entity.get_team() == g::local_player.get_team()) {
-				if (v::team_glow.first) {
-					m::write(
-						g::glow_object_manager() + (0x38 * entity.get_glow_index()) + 0x8,
-						color4_t{ v::team_glow.second }
-					);
+			const auto team = mem.Read<std::int32_t>(player + offsets::m_iTeamNum);
 
-					constexpr struct visible_t { bool a{ true }, b{ false }; }vis;
-					m::write(g::glow_object_manager() + (0x38 * entity.get_glow_index()) + 0x28, vis);
+			if (team == localTeam) {
+				if (globals::glowTeam) {
+					const auto glowIndex = mem.Read<std::int32_t>(player + offsets::m_iGlowIndex);
+
+					mem.Write(glowManager + (glowIndex * 0x38) + 0x8, globals::glowColorTeam[0]); // red
+					mem.Write(glowManager + (glowIndex * 0x38) + 0xC, globals::glowColorTeam[1]); // green
+					mem.Write(glowManager + (glowIndex * 0x38) + 0x10, globals::glowColorTeam[2]); // blue
+					mem.Write(glowManager + (glowIndex * 0x38) + 0x14, globals::glowColorTeam[3]); // alpha
+
+					mem.Write(glowManager + (glowIndex * 0x38) + 0x28, true);
+					mem.Write(glowManager + (glowIndex * 0x38) + 0x29, false);
 				}
 			}
 			else {
-				if (v::enemy_glow.first) {
-					m::write(
-						g::glow_object_manager() + (0x38 * entity.get_glow_index()) + 0x8,
-						color4_t{ v::enemy_glow.second }
-					);
+				if(globals::glowEnemy)
+				{
+					const auto glowIndex = mem.Read<std::int32_t>(player + offsets::m_iGlowIndex);
 
-					constexpr struct visible_t { bool a{ true }, b{ false }; }vis;
-					m::write(g::glow_object_manager() + (0x38 * entity.get_glow_index()) + 0x28, vis);
-				}
+					mem.Write(glowManager + (glowIndex * 0x38) + 0x8, globals::glowColorEnemy[0]); // red
+					mem.Write(glowManager + (glowIndex * 0x38) + 0xC, globals::glowColorEnemy[1]); // green
+					mem.Write(glowManager + (glowIndex * 0x38) + 0x10, globals::glowColorEnemy[2]); // blue
+					mem.Write(glowManager + (glowIndex * 0x38) + 0x14, globals::glowColorEnemy[3]); // alpha
 
-				if (v::radar) {
-					entity.set_spotted(true);
+					mem.Write(glowManager + (glowIndex * 0x38) + 0x28, true);
+					mem.Write(glowManager + (glowIndex * 0x38) + 0x29, false);
 				}
 			}
+
+			if (globals::radar)
+				mem.Write(player + offsets::m_bSpotted, true);
 		}
 	}
 }
