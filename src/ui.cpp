@@ -2,9 +2,9 @@
 
 #include "globals.h"
 
-#include "../ext/imgui/imgui.h"
-#include "../ext/imgui/imgui_impl_dx9.h"
-#include "../ext/imgui/imgui_impl_win32.h"
+#include "../imgui/imgui.h"
+#include "../imgui/imgui_impl_dx11.h"
+#include "../imgui/imgui_impl_win32.h"
 
 long __stdcall window_process(
 	const HWND window,
@@ -232,6 +232,9 @@ void u::render() noexcept {
 	);
 
 	static auto current_tab = 0;
+	int selectedKey = VK_XBUTTON1;
+	bool isCapturingKey = false;
+	char buttonText[16] = "Capturar Tecla";
 
 	if (ImGui::BeginChild(
 		1,
@@ -316,6 +319,38 @@ void u::render() noexcept {
 			break;
 
 		case 4:
+			ImGui::Checkbox("skinchanger", &globals::skinchanger);
+			ImGui::Checkbox("statTrack", &globals::statTrack);
+
+			if (isCapturingKey) {
+				ImGui::Text("Pressione uma tecla...");
+				if (!isCapturingKey) {
+					ImGui::SameLine();
+					if (ImGui::Button("Cancelar")) {
+						isCapturingKey = false;
+					}
+				}
+			}
+			else {
+				if (ImGui::Button("Capturar Tecla")) {
+					isCapturingKey = true;
+				}
+			}
+			if (isCapturingKey) {
+				for (int i = 0; i < 256; i++) {
+					if (GetAsyncKeyState(i) & 0x8000) {
+						selectedKey = i;
+						isCapturingKey = false; // Desativa a captura de tecla após a seleção
+						snprintf(buttonText, sizeof(buttonText), "Key %d", selectedKey);
+						break;
+					}
+				}
+			}
+
+			// Crie um texto exibindo a tecla atualmente selecionada
+			ImGui::Text("Tecla Selecionada: %d", selectedKey);
+
+
 			break;
 		}
 

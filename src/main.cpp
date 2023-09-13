@@ -54,6 +54,7 @@ int __stdcall WinMain(
 	std::thread(h::recoil, mem).detach();
 	std::thread(h::trigger, mem).detach();
 	std::thread(h::chams, mem).detach();
+	std::thread(h::skinchanger, mem).detach();
 
 
 

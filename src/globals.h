@@ -31,6 +31,19 @@ namespace offsets {
 	constexpr ::std::ptrdiff_t model_ambient_min = 0x5A1194;
 	constexpr ::std::ptrdiff_t m_clrRender = 0x70;
 
+	//Skinchanger OFFSETAS
+	constexpr ::std::ptrdiff_t m_hMyWeapons = 0x2E08;
+	constexpr ::std::ptrdiff_t m_flFallbackWear = 0x31E0;
+	constexpr ::std::ptrdiff_t m_nFallbackPaintKit = 0x31D8;
+	constexpr ::std::ptrdiff_t m_nFallbackSeed = 0x31DC;
+	constexpr ::std::ptrdiff_t m_nFallbackStatTrak = 0x31E4;
+	constexpr ::std::ptrdiff_t m_iItemDefinitionIndex = 0x2FBA;
+	constexpr ::std::ptrdiff_t m_iItemIDHigh = 0x2FD0;
+	constexpr ::std::ptrdiff_t m_iEntityQuality = 0x2FBC;
+	constexpr ::std::ptrdiff_t m_iAccountID = 0x2FD8;
+	constexpr ::std::ptrdiff_t m_OriginalOwnerXuidLow = 0x31D0;
+
+
 }
 
 struct Color
@@ -66,6 +79,9 @@ namespace globals {
 
 	inline Color TeamChamsColor{ 0, 0, 255 };
 	inline Color2 EnemyChamsColor{ 255, 0, 0 };
+
+	inline bool skinchanger = false;
+	inline bool statTrack = false;
 }
 
 namespace g {

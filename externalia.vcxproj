@@ -162,6 +162,7 @@
     <ClCompile Include="src\hacks\bhop.cpp" />
     <ClCompile Include="src\hacks\chams.cpp" />
     <ClCompile Include="src\hacks\recoil.cpp" />
+    <ClCompile Include="src\hacks\skinchanger.cpp" />
     <ClCompile Include="src\hacks\trigger.cpp" />
     <ClCompile Include="src\hacks\visuals.cpp" />
     <ClCompile Include="src\main.cpp" />

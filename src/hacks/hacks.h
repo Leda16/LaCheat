@@ -10,6 +10,8 @@ namespace h {
 	void recoil(const Memory& mem) noexcept;
 	void trigger(const Memory& mem) noexcept;
 	void chams(const Memory& mem) noexcept;
+	void skinchanger(const Memory& mem) noexcept;
+
 
 
 }
