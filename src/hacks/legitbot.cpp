@@ -1,9 +1,9 @@
 #include "hacks.h"
-#include "../utils/vector.h"
 #include <thread>
 #include<cmath>
+#include "../utils/vector.h"
 
-Vector3 CalculateAngle(
+Vector3 CalculateAngle2(
 	const Vector3& localPosition,
 	const Vector3& enemyPosition,
 	const Vector3& viewAngles) noexcept
@@ -11,17 +11,17 @@ Vector3 CalculateAngle(
 	return ((enemyPosition - localPosition).ToAngle() - viewAngles);
 }
 
-void h::aimbot(const Memory& mem) noexcept {
+void h::legitbot(const Memory& mem) noexcept {
 	while (g::run) {
 
-		if (globals::aimbot) {
+		if (globals::legitbot) {
 
 			std::this_thread::sleep_for(std::chrono::milliseconds(1));
-
-			if (!GetAsyncKeyState(globals::keyAimbot))
-				continue;
-
 			const auto localPlayer = mem.Read<std::uintptr_t>(globals::clientAddress + offsets::dwLocalPlayer);
+			const auto shotsFired = mem.Read<std::int32_t>(localPlayer + offsets::m_iShotsFired);
+
+
+
 			const auto localTeam = mem.Read<std::int32_t>(localPlayer + offsets::m_iTeamNum);
 
 			// eye position = origin + viewOffset
@@ -36,7 +36,6 @@ void h::aimbot(const Memory& mem) noexcept {
 			const auto viewAngles = mem.Read<Vector3>(clientState + offsets::dwClientState_ViewAngles);
 			const auto aimPunch = mem.Read<Vector3>(localPlayer + offsets::m_aimPunchAngle) * 2;
 
-			// aimbot fov
 			auto bestAngle = Vector3{ };
 
 			for (auto i = 1; i <= 32; ++i)
@@ -63,7 +62,7 @@ void h::aimbot(const Memory& mem) noexcept {
 						mem.Read<float>(boneMatrix + 0x30 * 8 + 0x2C)
 					};
 
-					const auto angle = CalculateAngle(
+					const auto angle = CalculateAngle2(
 						localEyePosition,
 						playerHeadPosition,
 						viewAngles + aimPunch
@@ -77,9 +76,11 @@ void h::aimbot(const Memory& mem) noexcept {
 					}
 				}
 			}
+			if (shotsFired) {
 
-			if (!bestAngle.IsZero())
-				mem.Write<Vector3>(clientState + offsets::dwClientState_ViewAngles, viewAngles + bestAngle / globals::smooth);
+				if (!bestAngle.IsZero())
+					mem.Write<Vector3>(clientState + offsets::dwClientState_ViewAngles, viewAngles + bestAngle / globals::smooth);
+			}
 		}
 	}
 }

@@ -10,6 +10,7 @@ constexpr const int PinturaDaArma(const short& itemDefinition) {
 	case 7: return 490; //ak
 	case 9: return 344; //awp
 	case 61: return 653; //usp
+	case 16: return 309; //m4
 	default: return 0;
 	}
 }

@@ -2,6 +2,8 @@
 #include <thread>
 #include<cmath>
 
+
+
 void h::bhop(const Memory& mem) noexcept {
 	while (g::run) {
 

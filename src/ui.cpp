@@ -2,9 +2,11 @@
 
 #include "globals.h"
 
-#include "../imgui/imgui.h"
-#include "../imgui/imgui_impl_dx9.h"
-#include "../imgui/imgui_impl_win32.h"
+#include "../ext/imgui/imgui.h"
+#include "../ext/imgui/imgui_impl_dx9.h"
+#include "../ext/imgui/imgui_impl_win32.h"
+
+#include "utils/arrays.hpp"
 
 long __stdcall window_process(
 	const HWND window,
@@ -199,6 +201,51 @@ void u::destroy_menu() noexcept {
 	ImGui::DestroyContext();
 }
 
+void ImGui::Hotkey(int* k, const ImVec2& size_arg)
+{
+	static bool waitingforkey = false;
+	static std::chrono::steady_clock::time_point startTime;
+
+	if (!waitingforkey) {
+		if (ImGui::Button(KeyNames[*k], size_arg)) {
+			waitingforkey = true;
+			startTime = std::chrono::steady_clock::now();
+		}
+	}
+	else {
+		auto currentTime = std::chrono::steady_clock::now();
+		auto elapsedTime = std::chrono::duration_cast<std::chrono::milliseconds>(currentTime - startTime).count();
+
+		if (elapsedTime >= 10) {
+			ImGui::Button("...", size_arg);
+
+			for (auto& Key : KeyCodes) {
+				if (GetAsyncKeyState(Key) & 0x8000) {
+					*k = Key;
+					*k = globals::keyAimbot;
+					waitingforkey = false;
+					break; 
+				}
+			}
+		}
+		else {
+			ImGui::Button("Waiting...", size_arg); 
+		}
+	}
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
 void u::render() noexcept {
 	MSG message;
 	while (PeekMessage(
@@ -236,6 +283,7 @@ void u::render() noexcept {
 	bool isCapturingKey = false;
 	char buttonText[16] = "Capturar Tecla";
 
+
 	if (ImGui::BeginChild(
 		1,
 		{ ImGui::GetContentRegionAvail().x * 0.25f, ImGui::GetContentRegionAvail().y },
@@ -260,12 +308,20 @@ void u::render() noexcept {
 
 		switch (current_tab) {
 		case 0:
-			ImGui::Checkbox("aimbot", &globals::aimbot);
+			ImGui::Checkbox("Aimbot", &globals::aimbot);
 			ImGui::SliderFloat("Fov", &globals::fov, 0, 2000, "%.3f");
 			ImGui::SliderFloat("Smooth", &globals::smooth, 1, 360, "%.3f");
 			ImGui::Spacing();
 
-			ImGui::Checkbox("trigger", &globals::trigger);
+			ImGui::Checkbox("Trigger", &globals::trigger);
+			ImGui::Spacing();
+			ImGui::Checkbox("Legitbot", &globals::legitbot);
+			ImGui::Spacing();
+
+			ImGui::Text("Aimbot Key");
+
+			ImGui::Hotkey(&globals::keyAimbot);
+
 			break;
 
 		case 1:
@@ -322,33 +378,7 @@ void u::render() noexcept {
 			ImGui::Checkbox("skinchanger", &globals::skinchanger);
 			ImGui::Checkbox("statTrack", &globals::statTrack);
 
-			if (isCapturingKey) {
-				ImGui::Text("Pressione uma tecla...");
-				if (!isCapturingKey) {
-					ImGui::SameLine();
-					if (ImGui::Button("Cancelar")) {
-						isCapturingKey = false;
-					}
-				}
-			}
-			else {
-				if (ImGui::Button("Capturar Tecla")) {
-					isCapturingKey = true;
-				}
-			}
-			if (isCapturingKey) {
-				for (int i = 0; i < 256; i++) {
-					if (GetAsyncKeyState(i) & 0x8000) {
-						selectedKey = i;
-						isCapturingKey = false; // Desativa a captura de tecla ap�s a sele��o
-						snprintf(buttonText, sizeof(buttonText), "Key %d", selectedKey);
-						break;
-					}
-				}
-			}
 
-			// Crie um texto exibindo a tecla atualmente selecionada
-			ImGui::Text("Tecla Selecionada: %d", selectedKey);
 
 
 			break;

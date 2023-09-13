@@ -43,6 +43,11 @@ namespace offsets {
 	constexpr ::std::ptrdiff_t m_iAccountID = 0x2FD8;
 	constexpr ::std::ptrdiff_t m_OriginalOwnerXuidLow = 0x31D0;
 
+	//Legitbot Teste
+
+	constexpr ::std::ptrdiff_t m_hActiveWeapon = 0x2F08;
+
+
 
 }
 
@@ -82,6 +87,9 @@ namespace globals {
 
 	inline bool skinchanger = false;
 	inline bool statTrack = false;
+	inline int keyAimbot;
+
+	inline bool legitbot = false;
 }
 
 namespace g {

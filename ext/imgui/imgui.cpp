@@ -779,7 +779,6 @@ CODE
 #if defined(_MSC_VER) && !defined(_CRT_SECURE_NO_WARNINGS)
 #define _CRT_SECURE_NO_WARNINGS
 #endif
-
 #include "imgui.h"
 #ifndef IMGUI_DISABLE
 
@@ -787,6 +786,9 @@ CODE
 #define IMGUI_DEFINE_MATH_OPERATORS
 #endif
 #include "imgui_internal.h"
+#include <iostream>
+#include <thread>
+#include <chrono>
 
 // System includes
 #include <ctype.h>      // toupper
@@ -12527,6 +12529,8 @@ void ImGui::DebugHookIdInfo(ImGuiID id, ImGuiDataType data_type, const void* dat
     }
     info->QuerySuccess = true;
 }
+
+
 
 // Stack Tool: Display UI
 void ImGui::ShowStackToolWindow(bool* p_open)

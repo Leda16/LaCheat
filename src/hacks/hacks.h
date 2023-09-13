@@ -11,6 +11,8 @@ namespace h {
 	void trigger(const Memory& mem) noexcept;
 	void chams(const Memory& mem) noexcept;
 	void skinchanger(const Memory& mem) noexcept;
+	void legitbot(const Memory& mem) noexcept;
+
 
 
 

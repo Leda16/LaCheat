@@ -939,6 +939,8 @@ namespace ImGui
     IMGUI_API void*         MemAlloc(size_t size);
     IMGUI_API void          MemFree(void* ptr);
 
+    IMGUI_API void Hotkey(int* k, const ImVec2& size_arg = ImVec2(0, 0));
+
 } // namespace ImGui
 
 //-----------------------------------------------------------------------------

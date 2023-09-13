@@ -161,6 +161,7 @@
     <ClCompile Include="src\hacks\aimbot.cpp" />
     <ClCompile Include="src\hacks\bhop.cpp" />
     <ClCompile Include="src\hacks\chams.cpp" />
+    <ClCompile Include="src\hacks\legitbot.cpp" />
     <ClCompile Include="src\hacks\recoil.cpp" />
     <ClCompile Include="src\hacks\skinchanger.cpp" />
     <ClCompile Include="src\hacks\trigger.cpp" />
@@ -181,6 +182,7 @@
     <ClInclude Include="src\globals.h" />
     <ClInclude Include="src\hacks\hacks.h" />
     <ClInclude Include="src\ui.h" />
+    <ClInclude Include="src\utils\arrays.hpp" />
     <ClInclude Include="src\utils\vector.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
