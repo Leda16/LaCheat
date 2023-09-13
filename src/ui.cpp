@@ -3,7 +3,7 @@
 #include "globals.h"
 
 #include "../imgui/imgui.h"
-#include "../imgui/imgui_impl_dx11.h"
+#include "../imgui/imgui_impl_dx9.h"
 #include "../imgui/imgui_impl_win32.h"
 
 long __stdcall window_process(
@@ -340,7 +340,7 @@ void u::render() noexcept {
 				for (int i = 0; i < 256; i++) {
 					if (GetAsyncKeyState(i) & 0x8000) {
 						selectedKey = i;
-						isCapturingKey = false; // Desativa a captura de tecla após a seleção
+						isCapturingKey = false; // Desativa a captura de tecla apï¿½s a seleï¿½ï¿½o
 						snprintf(buttonText, sizeof(buttonText), "Key %d", selectedKey);
 						break;
 					}
