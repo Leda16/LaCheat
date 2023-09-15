@@ -309,8 +309,8 @@ void u::render() noexcept {
 		switch (current_tab) {
 		case 0:
 			ImGui::Checkbox("Aimbot", &globals::aimbot);
-			ImGui::SliderFloat("Fov", &globals::fov, 0, 2000, "%.3f");
-			ImGui::SliderFloat("Smooth", &globals::smooth, 1, 360, "%.3f");
+			ImGui::SliderFloat("Fov", &globals::fov, 0, 300, "%.3f");
+			ImGui::SliderFloat("Smooth", &globals::smooth, 1, 20, "%.3f");
 			ImGui::Spacing();
 
 			ImGui::Checkbox("Trigger", &globals::trigger);
@@ -377,6 +377,7 @@ void u::render() noexcept {
 		case 4:
 			ImGui::Checkbox("skinchanger", &globals::skinchanger);
 			ImGui::Checkbox("statTrack", &globals::statTrack);
+
 
 
 

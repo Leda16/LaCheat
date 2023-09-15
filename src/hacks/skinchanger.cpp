@@ -11,6 +11,8 @@ constexpr const int PinturaDaArma(const short& itemDefinition) {
 	case 9: return 344; //awp
 	case 61: return 653; //usp
 	case 16: return 309; //m4
+	case 3: return 430; // five seven
+	case 40: return 899; //ssg08 preferida skdak
 	default: return 0;
 	}
 }
@@ -62,3 +64,4 @@ void h::skinchanger(const Memory& mem) noexcept {
 		}
 	}
 }
+

@@ -62,6 +62,7 @@ int __stdcall WinMain(
 
 
 
+
 	while (g::run) {
 		u::render();
 		std::this_thread::sleep_for(std::chrono::milliseconds(5));

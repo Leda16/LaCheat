@@ -47,6 +47,12 @@ namespace offsets {
 
 	constexpr ::std::ptrdiff_t m_hActiveWeapon = 0x2F08;
 
+	// buttefly teste
+	constexpr ::std::ptrdiff_t m_hViewModel = 0x3308;
+	constexpr ::std::ptrdiff_t m_nModelIndex = 0x258;
+	constexpr ::std::ptrdiff_t m_nViewModelIndex = 0x29D0;
+
+
 
 
 }
